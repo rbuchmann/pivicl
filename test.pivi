@@ -1,3 +1,5 @@
 set fill red stroke black
 circle 10 10 5 20 20 5
 lines 10 50 100 50 10 60 100 60
+set fill blue
+circle 20 70 10
