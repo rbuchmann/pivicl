@@ -40,7 +40,7 @@
                        :settings {}} cmd-list))
 
 (defn svg [cmd-list]
-  (-> cmd-list
-      reduce-to-svg
-      :svg
-      hiccups/html))
+  (hiccups/html
+   (-> cmd-list
+       reduce-to-svg
+       :svg)))
