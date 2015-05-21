@@ -9,9 +9,17 @@
                  [hiccups "0.3.0"]]
 
   :plugins [[lein-cljsbuild "1.0.6"]]
+  :source-paths ["src"]
   :cljsbuild {:builds
               {:main {:source-paths ["src"]
                       :compiler {:output-to "main.js"
                                  :optimizations :simple
                                  :target :nodejs}}}}
-  :profiles {:dev {:plugins [[com.cemerick/austin "0.1.6"]]}})
+  :profiles {:dev
+             {:dependencies
+              [[com.cemerick/piggieback "0.2.0"]
+               [org.clojure/tools.nrepl "0.2.10"]
+               [org.bodil/cljs-noderepl "0.1.11"
+                :exclusions [com.cemerick/piggieback]]]
+              :repl-options
+              {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}})
