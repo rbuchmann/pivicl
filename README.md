@@ -9,6 +9,13 @@ A clojurescript/node port of pivi
 3. Do "lein cljsbuild once" in root dir
 4. cat test.pivi | node main.js > test.svg
 
+## REPL
+
+To start the node repl from within nrepl, do
+
+1. (require 'cljs.repl.node)
+2. (cemerick.piggieback/cljs-repl (cljs.repl.node/repl-env))
+
 ## License
 
 Copyright © 2015 Rasmus Buchmann, Maximilian Klein
