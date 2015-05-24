@@ -28,11 +28,12 @@
     (emitter args settings)))
 
 (defn svg-reducer [state next-command]
-  (let [{:keys [svg settings]} state
-        {:keys [cmd args]} next-command]
+  (let [{:keys [cmd args settings]} next-command
+        new-settings (merge (:settings state) settings)]
     (if (= cmd :set)
-      (update-in state [:settings] merge args)
-      (update-in state [:svg] conj* (emit-svg cmd args settings)))))
+      (assoc state :settings new-settings)
+      (update-in state [:svg] conj*
+                 (emit-svg cmd args new-settings)))))
 
 (defn reduce-to-svg [cmd-list]
   (reduce svg-reducer {:svg [:svg {:width 100 :height 100
