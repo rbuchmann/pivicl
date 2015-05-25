@@ -27,17 +27,23 @@
   (let [emitter (get svg-cmds cmd (constantly ()))]
     (emitter args settings)))
 
+(def empty-svg [:svg])
+
+(defn svg->stdout [svg]
+  (println (hiccups/html svg)))
+
 (defn svg-reducer [state next-command]
   (let [{:keys [cmd args settings]} next-command
         new-settings (merge (:settings state) settings)]
-    (if (= cmd :set)
-      (assoc state :settings new-settings)
+    (case cmd
+      :set (assoc state :settings new-settings)
+      :newframe (do (svg->stdout (:svg state))
+                    (assoc state :svg empty-svg))
       (update-in state [:svg] conj*
                  (emit-svg cmd args new-settings)))))
 
 (defn reduce-to-svg [cmd-list]
-  (reduce svg-reducer {:svg [:svg {:width 100 :height 100
-                                   :viewbox "0 0 100 100"}]
+  (reduce svg-reducer {:svg empty-svg
                        :settings {}} cmd-list))
 
 (defn svg [cmd-list]
